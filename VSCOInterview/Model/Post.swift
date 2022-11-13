@@ -8,6 +8,7 @@
 import Foundation
 
 struct Post: Decodable, Equatable, Hashable {
+    let uuid = UUID()
     let title: String
     let imageUrl: String
 

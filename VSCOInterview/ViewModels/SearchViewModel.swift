@@ -7,15 +7,23 @@
 
 import Foundation
 
-class SearchViewModel: SearchViewModelProtocol {
+final class SearchViewModel: SearchViewModelProtocol {
     private var repository: SearchRepositoryProtocol
+    private var _defaultSearchResult: SearchResult?
+    private var state: SearchState = .inactive
+    private var currentSearchQuery = SearchQuery.default
+    private var isFirstPage: Bool { currentSearchQuery.page == .zero }
+    private var prefetchThreshold: Int { posts.count-20 }
     weak var delegate: SearchViewModelDelegate?
-    private var pageResponse: PageResponse?
-    private var currentPage = 1
+
+    private var searchResult: SearchResult? {
+        didSet {
+            guard _defaultSearchResult == nil else { return }
+            _defaultSearchResult = searchResult
+        }
+    }
     
-    private var isFirstPage: Bool { currentPage == 1 }
-    
-    var posts: [Post]? {
+    var posts: [Post] = [] {
         didSet {
             delegate?.postsDidChange()
         }
@@ -39,7 +47,7 @@ class SearchViewModel: SearchViewModelProtocol {
         switch action {
             
         case .fetch:
-            fetch()
+            fetch(with: currentSearchQuery)
             
         case let .canLoadMore(indexPath):
             canLoadMore(for: indexPath)
@@ -52,13 +60,22 @@ class SearchViewModel: SearchViewModelProtocol {
     // MARK: - Private methods
     
     func search(with query: String?) {
-
+        guard let query, !query.isEmpty else {
+            setDefaultSearchResult()
+            return
+        }
+        currentSearchQuery = SearchQuery(text: query, page: .zero)
+        fetch(with: currentSearchQuery)
     }
     
-    private func fetch(with query: String = "flowers", page: Int = 1) {
+    private func fetch(with searchQuery: SearchQuery) {
+        guard state == .inactive else { return }
+        currentSearchQuery = searchQuery
+        state = .active
+
         Task {
             do {
-                let searchResult = try await repository.fetch(with: query, page: page)
+                let searchResult = try await repository.fetch(with: searchQuery.text, page: searchQuery.page)
                 await handleSearchResult(searchResult)
             } catch {
                 await handleFailedSearchResult(with: error)
@@ -67,24 +84,44 @@ class SearchViewModel: SearchViewModelProtocol {
     }
     
     @MainActor
-    private func handleSearchResult(_ searchResult: PageResponse) {
+    private func handleSearchResult(_ searchResult: SearchResult) {
+        self.searchResult = searchResult
+
         if isFirstPage {
             posts = []
             posts = searchResult.posts
         } else {
-            posts?.append(contentsOf: searchResult.posts)
+            posts.append(contentsOf: searchResult.posts)
         }
+        state = .inactive
     }
     
     @MainActor
     private func handleFailedSearchResult(with error: Error) {
+        posts = []
+        state = .inactive
         delegate?.showErrorView(message: error.localizedDescription)
     }
     
     private func shouldFetchMore(indexPath: IndexPath) -> Bool {
-        indexPath.row >= posts?.count ?? 0
+        indexPath.row >= posts.count
     }
     
     private func canLoadMore(for indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: { $0.row >= prefetchThreshold }),
+           currentSearchQuery.page < searchResult?.total ?? 0 {
+            fetch(with: currentSearchQuery.incrementPage())
+        }
+    }
+
+    private func setDefaultSearchResult() {
+        posts = _defaultSearchResult?.posts ?? []
+    }
+}
+
+private extension SearchViewModel {
+    enum SearchState: Equatable {
+        case active
+        case inactive
     }
 }

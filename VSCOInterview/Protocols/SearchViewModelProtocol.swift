@@ -10,5 +10,5 @@ import Foundation
 protocol SearchViewModelProtocol {
     func dispatch(action: SearchViewModel.Action)
     var delegate: SearchViewModelDelegate? { get set }
-    var posts: [Post]? { get set }
+    var posts: [Post] { get set }
 }

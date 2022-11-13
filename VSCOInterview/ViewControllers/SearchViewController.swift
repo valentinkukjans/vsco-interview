@@ -53,9 +53,9 @@ final class SearchViewController: UIViewController {
     
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Post>()
-        //snapshot.deleteAllItems()
+        snapshot.deleteAllItems()
         snapshot.appendSections(Section.allCases)
-        snapshot.appendItems(viewModel.posts ?? [], toSection: .main)
+        snapshot.appendItems(viewModel.posts, toSection: .main)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     

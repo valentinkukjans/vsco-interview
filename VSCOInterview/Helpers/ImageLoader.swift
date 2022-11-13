@@ -8,10 +8,13 @@
 import UIKit
 
 actor ImageLoader: ImageLoaderProtocol {
+    static let shared: ImageLoader = ImageLoader()
     private let cache = ImageCache.shared
 
-    func fetch(from urlString: String) async throws -> UIImage {
-        guard let url = URL(string: urlString) else { throw ServiceError.invalidUrl }
+    private init() {}
+    
+    func fetch(from urlString: String?) async throws -> UIImage {
+        guard let urlString, let url = URL(string: urlString) else { throw ServiceError.invalidUrl }
         return try await fetch(URLRequest(url: url))
     }
 

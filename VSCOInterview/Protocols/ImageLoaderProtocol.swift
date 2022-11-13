@@ -8,6 +8,6 @@
 import UIKit
 
 protocol ImageLoaderProtocol {
-    func fetch(from urlString: String) async throws -> UIImage
+    func fetch(from urlString: String?) async throws -> UIImage
     func fetch(_ urlRequest: URLRequest) async throws -> UIImage
 }

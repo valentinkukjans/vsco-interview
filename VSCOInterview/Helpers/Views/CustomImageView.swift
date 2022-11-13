@@ -11,7 +11,7 @@ final class CustomImageView: UIImageView {
     private var imageUrlString: String?
     private(set) var imageLoader: ImageLoaderProtocol
 
-    init(imageLoader: ImageLoaderProtocol = ImageLoader()) {
+    init(imageLoader: ImageLoaderProtocol = ImageLoader.shared) {
         self.imageLoader = imageLoader
         super.init(frame: .zero)
     }
