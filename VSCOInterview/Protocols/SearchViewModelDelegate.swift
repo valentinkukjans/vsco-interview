@@ -9,4 +9,5 @@ import Foundation
 
 protocol SearchViewModelDelegate: AnyObject {
     func postsDidChange()
+    func showErrorView(message: String)
 }

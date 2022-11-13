@@ -18,7 +18,7 @@ struct SearchRepository: SearchRepositoryProtocol {
 
     // MARK: - Public methods
 
-    func fetch(with query: String) async throws -> PageResponse {
-        try await service.fetch(with: query)
+    func fetch(with query: String, page: Int) async throws -> PageResponse {
+        try await service.fetch(with: query, page: page)
     }
 }

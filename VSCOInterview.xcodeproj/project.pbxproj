@@ -14,6 +14,10 @@
 		BC1EA8CC291F337D00815DE7 /* SearchServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8CB291F337D00815DE7 /* SearchServiceProtocol.swift */; };
 		BC1EA8CE291F33DD00815DE7 /* SearchViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8CD291F33DD00815DE7 /* SearchViewModelDelegate.swift */; };
 		BC1EA8D0291F33FA00815DE7 /* SearchViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8CF291F33FA00815DE7 /* SearchViewModelProtocol.swift */; };
+		BC1EA8D429208CBD00815DE7 /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8D329208CBD00815DE7 /* UICollectionView.swift */; };
+		BC1EA8D629208D3B00815DE7 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8D529208D3B00815DE7 /* ErrorView.swift */; };
+		BC1EA8D829208ECC00815DE7 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8D729208ECC00815DE7 /* UIFont.swift */; };
+		BC1EA8DA292091BD00815DE7 /* PrefetchingDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1EA8D9292091BD00815DE7 /* PrefetchingDataSource.swift */; };
 		BC89E22F291E13B600D08CD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC89E22E291E13B600D08CD3 /* AppDelegate.swift */; };
 		BC89E231291E13B600D08CD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC89E230291E13B600D08CD3 /* SceneDelegate.swift */; };
 		BC89E233291E13B600D08CD3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC89E232291E13B600D08CD3 /* SearchViewController.swift */; };
@@ -71,6 +75,10 @@
 		BC1EA8CB291F337D00815DE7 /* SearchServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchServiceProtocol.swift; sourceTree = "<group>"; };
 		BC1EA8CD291F33DD00815DE7 /* SearchViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelDelegate.swift; sourceTree = "<group>"; };
 		BC1EA8CF291F33FA00815DE7 /* SearchViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelProtocol.swift; sourceTree = "<group>"; };
+		BC1EA8D329208CBD00815DE7 /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
+		BC1EA8D529208D3B00815DE7 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		BC1EA8D729208ECC00815DE7 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
+		BC1EA8D9292091BD00815DE7 /* PrefetchingDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefetchingDataSource.swift; sourceTree = "<group>"; };
 		BC89E22B291E13B600D08CD3 /* VSCOInterview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VSCOInterview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC89E22E291E13B600D08CD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC89E230291E13B600D08CD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -301,6 +309,7 @@
 				BC89E3D2291EF38B00D08CD3 /* Views */,
 				BC89E3D9291F18EA00D08CD3 /* ImageLoader.swift */,
 				BC89E3E2291F19AB00D08CD3 /* ImageCache.swift */,
+				BC1EA8D9292091BD00815DE7 /* PrefetchingDataSource.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -309,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				BC89E3D3291EF3A400D08CD3 /* CustomImageView.swift */,
+				BC1EA8D529208D3B00815DE7 /* ErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,6 +329,8 @@
 				BC89E3DE291F196900D08CD3 /* UIView.swift */,
 				BC89E3E0291F198700D08CD3 /* Task.swift */,
 				BC1EA8C3291F2D4E00815DE7 /* CellRegistration.swift */,
+				BC1EA8D329208CBD00815DE7 /* UICollectionView.swift */,
+				BC1EA8D729208ECC00815DE7 /* UIFont.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -458,12 +470,14 @@
 				BC1EA8C4291F2D4E00815DE7 /* CellRegistration.swift in Sources */,
 				BC89E3B8291E31F800D08CD3 /* ServiceError.swift in Sources */,
 				BC89E233291E13B600D08CD3 /* SearchViewController.swift in Sources */,
+				BC1EA8DA292091BD00815DE7 /* PrefetchingDataSource.swift in Sources */,
 				BC89E3B4291E31C300D08CD3 /* NetworkManagerProtocol.swift in Sources */,
 				BC89E3BA291E89B400D08CD3 /* SearchEndpoint.swift in Sources */,
 				BC89E3C6291EE31F00D08CD3 /* PageResponse.swift in Sources */,
 				BC1EA8D0291F33FA00815DE7 /* SearchViewModelProtocol.swift in Sources */,
 				BC89E3DF291F196900D08CD3 /* UIView.swift in Sources */,
 				BC89E22F291E13B600D08CD3 /* AppDelegate.swift in Sources */,
+				BC1EA8D629208D3B00815DE7 /* ErrorView.swift in Sources */,
 				BC1EA8CE291F33DD00815DE7 /* SearchViewModelDelegate.swift in Sources */,
 				BC89E266291E2CCD00D08CD3 /* JSONParameterEncoder.swift in Sources */,
 				BC1EA8C2291F294E00815DE7 /* PostCellViewModel.swift in Sources */,
@@ -471,11 +485,13 @@
 				BC89E3D0291EEE8B00D08CD3 /* PostCollectionViewCell.swift in Sources */,
 				BC89E3C0291EC63C00D08CD3 /* SearchRepository.swift in Sources */,
 				BC89E3D4291EF3A400D08CD3 /* CustomImageView.swift in Sources */,
+				BC1EA8D829208ECC00815DE7 /* UIFont.swift in Sources */,
 				BC89E3BD291E909400D08CD3 /* SearchService.swift in Sources */,
 				BC89E3C3291EC75300D08CD3 /* SearchViewModel.swift in Sources */,
 				BC89E3D8291F117300D08CD3 /* Section.swift in Sources */,
 				BC89E3E1291F198700D08CD3 /* Task.swift in Sources */,
 				BC89E3DA291F18EA00D08CD3 /* ImageLoader.swift in Sources */,
+				BC1EA8D429208CBD00815DE7 /* UICollectionView.swift in Sources */,
 				BC89E262291E2C6A00D08CD3 /* ParameterEncoder.swift in Sources */,
 				BC89E3C8291EE33C00D08CD3 /* Post.swift in Sources */,
 				BC89E3B1291E319400D08CD3 /* NetworkManager.swift in Sources */,

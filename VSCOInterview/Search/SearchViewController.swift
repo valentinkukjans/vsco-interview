@@ -8,12 +8,23 @@
 import UIKit
 
 final class SearchViewController: UIViewController {
+
+    private var prefetchDataSource: PrefetchingDataSource?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Post>?
-    private(set) var viewModel: SearchViewModel
+    private(set) var viewModel: SearchViewModelProtocol
+
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        definesPresentationContext = true
+        return searchController
+    }()
     
     private(set) lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: .createCollectionViewLayout())
         collectionView.delegate = self
+        collectionView.prefetchDataSource = prefetchDataSource
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         return collectionView
@@ -21,7 +32,7 @@ final class SearchViewController: UIViewController {
     
     // MARK: - Initialization
     
-    init(viewModel: SearchViewModel) {
+    init(viewModel: SearchViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
@@ -42,20 +53,24 @@ final class SearchViewController: UIViewController {
     
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Post>()
+        //snapshot.deleteAllItems()
         snapshot.appendSections(Section.allCases)
         snapshot.appendItems(viewModel.posts ?? [], toSection: .main)
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     private func fetch() {
-        Task {
-            await viewModel.fetch()
-        }
+        viewModel.dispatch(action: .fetch)
     }
     
     private func createSubviews() {
+        navigationItem.searchController = searchController
         view.backgroundColor = .white
         title = "Photos"
+    }
+
+    private func showErrorView(with message: String) {
+        collectionView.showErrorView(with: message)
     }
 }
 
@@ -66,16 +81,33 @@ private extension SearchViewController {
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Post>(collectionView: collectionView, cellProvider: cellRegistration.cellProvider)
+
+
+        prefetchDataSource = PrefetchingDataSource(for: collectionView) { [weak self] indexPaths in
+            self?.viewModel.dispatch(action: .canLoadMore(indexPaths))
+        }
     }
 }
 
 extension SearchViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+    }
 }
 
 extension SearchViewController: SearchViewModelDelegate {
     func postsDidChange() {
         reloadData()
+    }
+
+    func showErrorView(message: String) {
+        showErrorView(with: message)
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        viewModel.dispatch(action: .search(searchController.searchBar.text))
     }
 }
 
@@ -98,8 +130,7 @@ extension UICollectionViewLayout {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: fullPhotoItem,
-            count: 2
-        )
+            count: 2)
 
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)

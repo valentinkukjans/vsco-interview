@@ -8,5 +8,4 @@
 import Foundation
 
 protocol SearchServiceProtocol {
-    func fetch(with query: String) async throws -> PageResponse
-}
+    func fetch(with query: String, page: Int) async throws -> PageResponse}
