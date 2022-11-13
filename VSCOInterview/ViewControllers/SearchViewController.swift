@@ -66,7 +66,7 @@ final class SearchViewController: UIViewController {
     private func createSubviews() {
         navigationItem.searchController = searchController
         view.backgroundColor = .white
-        title = "Photos"
+        title = "Flickr Search"
     }
 
     private func showErrorView(with message: String) {
@@ -89,10 +89,14 @@ private extension SearchViewController {
     }
 }
 
-extension SearchViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+extension SearchViewController {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchController.searchBar.resignFirstResponder()
     }
+}
+
+extension SearchViewController: UICollectionViewDelegate {
+    // Need conformance to UICollectionViewDelegate, in order to triggr above ScrollView delegate method
 }
 
 extension SearchViewController: SearchViewModelDelegate {
