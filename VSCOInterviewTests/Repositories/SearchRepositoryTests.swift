@@ -18,7 +18,6 @@ class SearchRepositoryTests: XCTestCase {
     
     func testFetchError()  {
         // Given
-        let expectation = expectation(description: "\(#function)")
         sut = SearchRepository(service: SearchServiceMock(searchResult: nil))
         
         // When
@@ -29,15 +28,12 @@ class SearchRepositoryTests: XCTestCase {
             } catch {
                 // Then
                 XCTAssertNotNil(error)
-                expectation.fulfill()
             }
         }
-        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testFetchSuccess() {
         // Given
-        let expectation = expectation(description: "\(#function)")
         let searchResult = SearchResult(page: 4, pages: 5451, total: 234, posts: [Post(title: "foo", imageUrl: "some/path")])
         sut = SearchRepository(service: SearchServiceMock(searchResult: searchResult))
         
@@ -46,8 +42,6 @@ class SearchRepositoryTests: XCTestCase {
             let result = try await sut.fetch(with: SearchQuery(text: "ggg", page: 5))
             // Then
             XCTAssertEqual(result, searchResult)
-            expectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
     }
 }
