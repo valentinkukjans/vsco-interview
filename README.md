@@ -42,27 +42,27 @@ MVVM and Clean Architecture provides a clean separation of concerns between the 
 
 Next steps to add:
 
-Add abstraction around collection view data source, for reuse
-Restore search with UIUserActivityRestoring 
-Debouncer
-UISearchSuggestion
-Scope bar to help people refine the scope of a search
-Spotlight
-Pull to refresh 
-Orientations trait change support 
-Dynamic font 
-Accessibility
-Analytics 
-Background fetch (Background Assets)
-Prefetch images (UICollectionViewDataSourcePrefetching)
-Segmentation of search, suggestions, recent search, autocomplete
-Cache search results for query (NSCache, Disk, CoreData)
-Persistence (SQLite/CoreData/Realm) 
-Localization
-Error handling
-Offline support
-Handle/store sensitive data in Keychain
-Dark mode
+Add abstraction around collection view data source, for reuse\
+Restore search with UIUserActivityRestoring\
+Debouncer\
+UISearchSuggestion\
+Scope bar to help people refine the scope of a search\
+Spotlight\
+Pull to refresh\
+Orientations trait change support\ 
+Dynamic font\
+Accessibility\
+Analytics\ 
+Background fetch (Background Assets)\
+Prefetch images (UICollectionViewDataSourcePrefetching)\
+Segmentation of search, suggestions, recent search, autocomplete\
+Cache search results for query (NSCache, Disk, CoreData)\
+Persistence (SQLite/CoreData/Realm)\ 
+Localization\
+Error handling\
+Offline support\
+Handle/store sensitive data in Keychain\
+Dark mode\
 More tests (UI)
 
 
