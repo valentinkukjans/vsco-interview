@@ -47,9 +47,14 @@ class SearchServiceTests: XCTestCase {
             do {
                 // When
                 let result = try await SearchService().fetch(with: self.searchQuery)
-
+                
                 // Then
                 XCTAssertNotNil(result.posts)
+                XCTAssertEqual(result.posts.count, 100)
+                XCTAssertEqual(result.posts.last?.title, "Flowers")
+                XCTAssertEqual(result.posts.last?.imageUrl, "https://live.staticflickr.com/65535/52496948077_d3815673e8_m.jpg")
+                XCTAssertEqual(result.posts.first?.title, "yellow flower")
+                XCTAssertEqual(result.posts.first?.imageUrl, "https://live.staticflickr.com/65535/52498189095_e53c361810_m.jpg")
             } catch {
                 XCTFail("Search qequest should succeed")
             }

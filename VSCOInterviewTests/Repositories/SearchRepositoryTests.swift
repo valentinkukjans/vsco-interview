@@ -9,10 +9,10 @@ import XCTest
 @testable import VSCOInterview
 
 class SearchRepositoryTests: XCTestCase {
-    var sut: SearchRepository!
-    
+    var sut: SearchRepository?
+
     override func tearDown() {
-        sut = nil
+         sut = nil
         super.tearDown()
     }
     
@@ -23,11 +23,11 @@ class SearchRepositoryTests: XCTestCase {
         // When
         Task {
             do {
-                try await sut.fetch(with: SearchQuery(text: "ggg", page: 5))
+                try await sut?.fetch(with: SearchQuery(text: "ggg", page: 5))
                 XCTFail("Should return error")
             } catch {
                 // Then
-                XCTAssertNotNil(error)
+                XCTAssert(error is ServiceError)
             }
         }
     }
@@ -39,7 +39,7 @@ class SearchRepositoryTests: XCTestCase {
         
         // When
         Task {
-            let result = try await sut.fetch(with: SearchQuery(text: "ggg", page: 5))
+            let result = try await sut?.fetch(with: SearchQuery(text: "ggg", page: 5))
             // Then
             XCTAssertEqual(result, searchResult)
         }

@@ -23,6 +23,7 @@ final class URLProtocolMock: URLProtocol {
         if let url = request.url {
             if let data = URLProtocolMock.testURLs[url.queryItemValue(for: "text")] {
                 client?.urlProtocol(self, didLoad: data)
+                client?.urlProtocol(self, didReceive: HTTPURLResponse(), cacheStoragePolicy: .allowed)
             } else {
                 client?.urlProtocol(self, didFailWithError: ServiceError.invalidRequest);
             }
