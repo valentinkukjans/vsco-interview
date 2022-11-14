@@ -10,7 +10,7 @@ import UIKit
 final class SearchViewController: UIViewController {
 
     private var prefetchDataSource: PrefetchingDataSource?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Post>?
+    private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Post>?
     private(set) var viewModel: SearchViewModelProtocol
 
     private lazy var searchController: UISearchController = {

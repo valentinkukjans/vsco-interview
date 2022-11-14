@@ -8,7 +8,7 @@
 import Foundation
 
 enum SearchEndpoint {
-    case search(query: String, page: Int)
+    case search(SearchQuery)
 }
 
 extension SearchEndpoint: EndPointType {
@@ -37,12 +37,12 @@ extension SearchEndpoint: EndPointType {
 
     var task: HTTPTask {
         switch self {
-        case let .search(query, page):
+        case let .search(searchQuery):
             return .requestParameters(bodyEncoding: .urlEncoding,
                                       urlParameters: ["method": "flickr.photos.search",
                                                       "api_key": SearchEndpoint.apiKey,
-                                                      "text": query,
-                                                      "page": page,
+                                                      "text": searchQuery.text,
+                                                      "page": searchQuery.page,
                                                       "extras": "url_s",
                                                       "format": "json",
                                                       "nojsoncallback": "1"])

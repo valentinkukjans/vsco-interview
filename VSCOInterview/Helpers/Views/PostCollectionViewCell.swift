@@ -16,6 +16,7 @@ final class PostCollectionViewCell: UICollectionViewCell {
         thumbnailImageView.contentMode = .scaleAspectFill
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.layer.masksToBounds = true
+        thumbnailImageView.backgroundColor = .lightGray.withAlphaComponent(0.1)
         contentView.addSubview(thumbnailImageView)
         return thumbnailImageView
     }()
@@ -36,7 +37,7 @@ final class PostCollectionViewCell: UICollectionViewCell {
         thumbnailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
-
+    
     private(set) var viewModel: PostCellViewModel? {
         didSet {
             guard let post = viewModel?.post else { return }
@@ -58,4 +59,3 @@ final class PostCollectionViewCell: UICollectionViewCell {
         }
     }
 }
-

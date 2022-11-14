@@ -10,13 +10,13 @@ import Foundation
 final class SearchViewModel: SearchViewModelProtocol {
     private var repository: SearchRepositoryProtocol
     private var _defaultSearchResult: SearchResult?
-    private var state: SearchState = .inactive
-    private var currentSearchQuery = SearchQuery.default
+    private(set) var state: SearchState = .inactive
+    private(set) var currentSearchQuery = SearchQuery.default
     private var isFirstPage: Bool { currentSearchQuery.page == .zero }
     private var prefetchThreshold: Int { posts.count-20 }
     weak var delegate: SearchViewModelDelegate?
 
-    private var searchResult: SearchResult? {
+    var searchResult: SearchResult? {
         didSet {
             guard _defaultSearchResult == nil else { return }
             _defaultSearchResult = searchResult
@@ -60,12 +60,11 @@ final class SearchViewModel: SearchViewModelProtocol {
     // MARK: - Private methods
     
     func search(with query: String?) {
-        guard let query, !query.isEmpty else {
+        guard let query = query?.trimmingSpaces(), !query.isEmpty else {
             setDefaultSearchResult()
             return
         }
-        currentSearchQuery = SearchQuery(text: query, page: .zero)
-        fetch(with: currentSearchQuery)
+        fetch(with: SearchQuery(text: query))
     }
     
     private func fetch(with searchQuery: SearchQuery) {
@@ -75,7 +74,7 @@ final class SearchViewModel: SearchViewModelProtocol {
 
         Task {
             do {
-                let searchResult = try await repository.fetch(with: searchQuery.text, page: searchQuery.page)
+                let searchResult = try await repository.fetch(with: searchQuery)
                 await handleSearchResult(searchResult)
             } catch {
                 await handleFailedSearchResult(with: error)
@@ -104,11 +103,11 @@ final class SearchViewModel: SearchViewModelProtocol {
     }
     
     private func shouldFetchMore(indexPath: IndexPath) -> Bool {
-        indexPath.row >= posts.count
+        indexPath.row >= prefetchThreshold
     }
     
     private func canLoadMore(for indexPaths: [IndexPath]) {
-        if indexPaths.contains(where: { $0.row >= prefetchThreshold }),
+        if indexPaths.contains(where: shouldFetchMore),
            currentSearchQuery.page < searchResult?.total ?? 0 {
             fetch(with: currentSearchQuery.incrementPage())
         }
@@ -119,7 +118,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     }
 }
 
-private extension SearchViewModel {
+extension SearchViewModel {
     enum SearchState: Equatable {
         case active
         case inactive
