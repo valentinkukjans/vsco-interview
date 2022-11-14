@@ -68,10 +68,6 @@ final class SearchViewController: UIViewController {
         view.backgroundColor = .white
         title = "Flickr Search"
     }
-
-    private func showErrorView(with message: String) {
-        collectionView.showErrorView(with: message)
-    }
 }
 
 private extension SearchViewController {
@@ -105,7 +101,7 @@ extension SearchViewController: SearchViewModelDelegate {
     }
 
     func showErrorView(message: String) {
-        showErrorView(with: message)
+        // show error view
     }
 }
 

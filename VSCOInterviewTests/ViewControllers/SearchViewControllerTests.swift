@@ -40,15 +40,4 @@ class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(snapshot!.numberOfSections, 1)
         XCTAssertEqual(snapshot!.itemIdentifiers(inSection: .main), PostFixtures.posts)
     }
-
-    func testFetchOnViewDidLoadFailure() {
-        // Given
-        viewModelMock.posts = []
-
-        // When
-        _ = sut.view
-
-        // Then
-        XCTAssertTrue(sut.collectionView.backgroundView is ErrorView)
-    }
 }
